@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="@string/profile"
+        android:textColor="@color/background_light2"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/photo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:shapeAppearanceOverlay="@style/rounded_photo"
+        app:strokeColor="@color/background_light"
+        app:strokeWidth="0.5dp"
+        tools:src="@drawable/team" />
+
+    <Button
+        android:id="@+id/shop_button_profile"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:backgroundTint="@color/button"
+        android:text="@string/shop"
+        android:textColor="@color/background"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.003"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/zip_code"
+        app:layout_constraintVertical_bias="0.88" />
+
+    <Button
+        android:id="@+id/cart_button_profile"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:backgroundTint="@color/button"
+        android:text="@string/cart"
+        android:textColor="@color/background"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/shop_button_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/shop_button_profile"
+        app:layout_constraintTop_toTopOf="@+id/shop_button_profile"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/orders_button_profile"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:backgroundTint="@color/button"
+        android:text="@string/orders"
+        android:textColor="@color/background"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/shop_button_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/cart_button_profile"
+        app:layout_constraintTop_toTopOf="@+id/shop_button_profile"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/profile_button_profile"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@color/button"
+        android:text="@string/profile"
+        android:textColor="@color/background"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/shop_button_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/orders_button_profile"
+        app:layout_constraintTop_toTopOf="@+id/shop_button_profile" />
+
+    <TextView
+        android:id="@+id/user_name_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo"
+        tools:text="@string/username" />
+
+    <TextView
+        android:id="@+id/first_name_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.389"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name_profile"
+        tools:text="@string/first_name" />
+
+    <TextView
+        android:id="@+id/last_name_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/first_name_profile"
+        app:layout_constraintTop_toTopOf="@+id/first_name_profile"
+        tools:text="@string/last_name" />
+
+    <TextView
+        android:id="@+id/email_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_name_profile"
+        tools:text="@string/email" />
+
+    <TextView
+        android:id="@+id/phone_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_profile"
+        tools:text="@string/phone" />
+
+    <TextView
+        android:id="@+id/city_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_profile"
+        tools:text="@string/city" />
+
+    <TextView
+        android:id="@+id/street_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_profile"
+        tools:text="@string/street" />
+
+    <TextView
+        android:id="@+id/number_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/street_profile"
+        tools:text="@string/number" />
+
+    <TextView
+        android:id="@+id/zip_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/background_light2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/number_profile"
+        tools:text="@string/zip_code" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

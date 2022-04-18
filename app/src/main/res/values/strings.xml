@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">OnlineShopping_MobileApp_23643-LucianoGimenez</string>
+    <string name="bee">Bee</string>
+    <string name="shopping">Shopping</string>
+    <string name="shop">Shop</string>
+    <string name="cart">Cart</string>
+    <string name="orders">Orders</string>
+    <string name="profile">Profile</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="register">Register</string>
+    <string name="add_to_Cart">Add to cart</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="city">City</string>
+    <string name="street">Street</string>
+    <string name="number">Number</string>
+    <string name="zip_code">Zip code</string>
+    <string name="currency">€</string>
+    <string name="order_number">Order number:</string>
+    <string name="date">Date:</string>
+    <string name="status">Status:</string>
+    <string name="order_price">Price:</string>
 </resources>
