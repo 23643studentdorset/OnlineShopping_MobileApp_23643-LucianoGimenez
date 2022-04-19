@@ -58,8 +58,14 @@ class MainActivity : AppCompatActivity() {
                         //println("users: $body")
                         val gson = GsonBuilder().create()
                         usersList = gson.fromJson(body, Users::class.java)
-                        println(usersList)
-                        println(findIndexUsername(usersList, username))
+                        //println(usersList)
+                        val userIndex = findIndexUsername(usersList, username)
+                        //println("index:$userIndex")
+                        if (userIndex != null){
+                            if (usersList[userIndex].password == password){
+                                //println("You are in")
+                            }
+                        }
                     }
                 }
             })
@@ -70,4 +76,5 @@ class MainActivity : AppCompatActivity() {
         return (arr.indices)
             .firstOrNull { i: Int -> item == arr[i].username }
     }
+
 }
