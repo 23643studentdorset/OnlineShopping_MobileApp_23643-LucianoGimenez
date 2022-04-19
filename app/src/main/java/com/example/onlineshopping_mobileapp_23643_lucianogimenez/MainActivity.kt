@@ -12,6 +12,9 @@ import okhttp3.*
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var usersList: ArrayList<User>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,24 +39,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchJsonData(username: String, password: String) {
-        val url = "https://fakestoreapi.com/users/1"
+        //repos
+        val url = "https://fakestoreapi.com/users"
         val request = Request.Builder().url(url).build()
 
         val client = OkHttpClient()
-        client.newCall(request).enqueue(object : Callback {
+        client.run {
+            newCall(request).enqueue(object : Callback {
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
-                //println (body)
-                val gson = GsonBuilder().create()
-                val userData = gson.fromJson(body, User::class.java)
-                println(userData)
-            }
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("lucho", "$e")
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.i("lucho", "$e")
-            }
+                }
 
-        })
+                override fun onResponse(call: Call, response: Response) {
+                    if (response.isSuccessful) {
+                        val body = response.body?.string()
+                        //println("users: $body")
+                        val gson = GsonBuilder().create()
+                        usersList = gson.fromJson(body, Users::class.java)
+                        println(usersList)
+                        println(findIndexUsername(usersList, username))
+                    }
+                }
+            })
+        }
+
+    }
+    private fun findIndexUsername(arr: ArrayList<User>, item: String): Int? {
+        return (arr.indices)
+            .firstOrNull { i: Int -> item == arr[i].username }
     }
 }
