@@ -86,6 +86,8 @@ class MainActivity : AppCompatActivity() {
                             if (usersList[userIndex].password == password){
                                 //println("You are in")
                                 Toast.makeText(this@MainActivity,"You are in",Toast.LENGTH_LONG).show()
+                                val intentShop = Intent(this@MainActivity, ShopActivity::class.java)
+                                startActivity(intentShop)
                             }}
                         }
                     }
@@ -97,5 +99,6 @@ class MainActivity : AppCompatActivity() {
         return (arr.indices)
             .firstOrNull { i: Int -> item == arr[i].username }
     }
+
 
 }
