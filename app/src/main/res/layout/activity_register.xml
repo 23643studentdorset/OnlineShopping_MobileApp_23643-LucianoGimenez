@@ -32,8 +32,8 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
-        android:layout_width="338dp"
-        android:layout_height="450dp"
+        android:layout_width="327dp"
+        android:layout_height="315dp"
         app:layout_constraintBottom_toTopOf="@+id/register_button_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
@@ -47,10 +47,10 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/first_name"
-                android:layout_gravity="center_horizontal"
+                android:id="@+id/first_name_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 android:autofillHints="name"
                 android:backgroundTint="@color/background_light2"
@@ -61,26 +61,10 @@
                 android:textColorHint="@color/background_light"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_name_r" />
+                app:layout_constraintTop_toBottomOf="@+id/user_name_register" />
 
             <EditText
-                android:id="@+id/user_name_r"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:autofillHints="username"
-                android:backgroundTint="@color/background_light2"
-                android:ems="10"
-                android:hint="@string/username"
-                android:inputType="textPersonName"
-                android:textColor="@color/background_light2"
-                android:textColorHint="@color/background_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/last_name"
+                android:id="@+id/last_name_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -95,14 +79,31 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/first_name" />
+                app:layout_constraintTop_toBottomOf="@+id/first_name_register" />
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/user_name_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:autofillHints="username"
+                android:backgroundTint="@color/background_light2"
+                android:ems="10"
+                android:hint="@string/username"
+                android:inputType="textPersonName"
+                android:textColor="@color/background_light2"
+                android:textColorHint="@color/background_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/email_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
                 android:autofillHints="emailAddress"
                 android:backgroundTint="@color/background_light2"
                 android:ems="10"
@@ -113,102 +114,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password_r" />
+                app:layout_constraintTop_toBottomOf="@+id/password_register" />
 
             <EditText
-                android:id="@+id/number"
+                android:id="@+id/password_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:autofillHints="postalAddress"
-                android:backgroundTint="@color/background_light2"
-                android:ems="10"
-                android:hint="@string/number"
                 android:layout_gravity="center_horizontal"
-                android:inputType="number"
-                android:textColor="@color/background_light2"
-                android:textColorHint="@color/background_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/street" />
-
-            <EditText
-                android:id="@+id/street"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:autofillHints="postalAddress"
-                android:backgroundTint="@color/background_light2"
-                android:ems="10"
-                android:hint="@string/street"
-                android:layout_gravity="center_horizontal"
-                android:inputType="textPersonName"
-                android:textColor="@color/background_light2"
-                android:textColorHint="@color/background_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.502"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/city" />
-
-            <EditText
-                android:id="@+id/postal_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal"
-                android:autofillHints="postalCode"
-                android:backgroundTint="@color/background_light2"
-                android:ems="10"
-                android:hint="@string/zip_code"
-                android:inputType="textPostalAddress"
-                android:textColor="@color/background_light2"
-                android:textColorHint="@color/background_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/number" />
-
-            <EditText
-                android:id="@+id/city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal"
-                android:autofillHints="postalAddress"
-                android:backgroundTint="@color/background_light2"
-                android:ems="10"
-                android:hint="@string/city"
-                android:inputType="textPersonName"
-                android:textColor="@color/background_light2"
-                android:textColorHint="@color/background_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phone_num" />
-
-            <EditText
-                android:id="@+id/phone_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal"
-                android:autofillHints="phone"
-                android:backgroundTint="@color/background_light2"
-                android:ems="10"
-                android:hint="@string/phone"
-                android:inputType="phone"
-                android:textColor="@color/background_light2"
-                android:textColorHint="@color/background_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email" />
-
-            <EditText
-                android:id="@+id/password_r"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal"
                 android:autofillHints="password"
                 android:backgroundTint="@color/background_light2"
                 android:ems="10"
@@ -219,10 +132,96 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/last_name" />
+                app:layout_constraintTop_toBottomOf="@+id/last_name_register" />
+
+            <EditText
+                android:id="@+id/number_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:autofillHints="postalAddress"
+                android:backgroundTint="@color/background_light2"
+                android:ems="10"
+                android:hint="@string/number"
+                android:inputType="number"
+                android:textColor="@color/background_light2"
+                android:textColorHint="@color/background_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/street_register" />
+
+            <EditText
+                android:id="@+id/street_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:autofillHints="postalAddress"
+                android:backgroundTint="@color/background_light2"
+                android:ems="10"
+                android:hint="@string/street"
+                android:inputType="textPersonName"
+                android:textColor="@color/background_light2"
+                android:textColorHint="@color/background_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city_register" />
+
+            <EditText
+                android:id="@+id/postal_code_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:autofillHints="postalCode"
+                android:backgroundTint="@color/background_light2"
+                android:ems="10"
+                android:hint="@string/zip_code"
+                android:inputType="textPostalAddress"
+                android:textColor="@color/background_light2"
+                android:textColorHint="@color/background_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/number_register" />
+
+            <EditText
+                android:id="@+id/city_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:autofillHints="postalAddress"
+                android:backgroundTint="@color/background_light2"
+                android:ems="10"
+                android:hint="@string/city"
+                android:inputType="textPersonName"
+                android:textColor="@color/background_light2"
+                android:textColorHint="@color/background_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_num_register" />
+
+            <EditText
+                android:id="@+id/phone_num_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:autofillHints="phone"
+                android:backgroundTint="@color/background_light2"
+                android:ems="10"
+                android:hint="@string/phone"
+                android:inputType="phone"
+                android:textColor="@color/background_light2"
+                android:textColorHint="@color/background_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_register" />
+
         </LinearLayout>
-
-
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

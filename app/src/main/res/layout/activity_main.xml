@@ -11,83 +11,76 @@
         android:id="@+id/login_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="120dp"
         android:backgroundTint="@color/button"
         android:hapticFeedbackEnabled="false"
         android:text="@string/login"
         android:textColor="@color/background"
-        app:layout_constraintBottom_toTopOf="@+id/register_button_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/password_login" />
 
     <Button
         android:id="@+id/register_button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/button"
-        android:textColor="@color/background"
         android:text="@string/register"
+        android:textColor="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_login_button"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/app_logo"
         android:layout_width="250dp"
-        android:scaleType="centerInside"
-        android:contentDescription="@string/bee"
         android:layout_height="250dp"
-        app:layout_constraintBottom_toTopOf="@+id/user_name_login"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/bee"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.374"
         app:tint="@color/extra_color_blue"
         tools:srcCompat="@drawable/bee" />
 
     <EditText
         android:id="@+id/user_name_login"
         android:layout_width="wrap_content"
-        android:hint="@string/username"
-        android:autofillHints="username"
-        android:textColorHint="@color/background_light"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints="username"
         android:backgroundTint="@color/background_light2"
         android:ems="10"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         android:textColor="@color/background_light2"
-        app:layout_constraintBottom_toTopOf="@+id/password_login"
+        android:textColorHint="@color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/app_logo" />
 
     <EditText
         android:id="@+id/password_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:textColorHint="@color/background_light"
-        android:layout_marginBottom="68dp"
+        android:layout_marginTop="16dp"
         android:autofillHints="password"
         android:backgroundTint="@color/background_light2"
         android:ems="10"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:textColor="@color/background_light2"
-        app:layout_constraintBottom_toTopOf="@+id/login_login_button"
+        android:textColorHint="@color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/user_name_login" />
 
     <TextView
         android:id="@+id/textview4"

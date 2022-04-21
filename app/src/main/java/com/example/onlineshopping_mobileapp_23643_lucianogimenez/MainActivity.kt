@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        supportActionBar?.title = "Login Page"
+
         val loginButtonClick = findViewById<Button>(R.id.login_login_button)
         loginButtonClick.setOnClickListener {
             if (findViewById<EditText>(R.id.user_name_login).text.toString() != "" &&
@@ -26,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val username = findViewById<EditText>(R.id.user_name_login).text.toString()
                 val password = findViewById<EditText>(R.id.password_login).text.toString()
-                fetchJsonData(username, password)
+                fetchJsonData(username, password, "https://fakestoreapi.com/users")
             } else {
                 Toast.makeText(
                     this,
@@ -44,8 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun fetchJsonData(username: String, password: String) {
-        val url = "https://fakestoreapi.com/users"
+    private fun fetchJsonData(username: String, password: String, url: String) {
         val request = Request.Builder().url(url).build()
 
         val client = OkHttpClient()
@@ -76,7 +78,6 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-
     }
     private fun findIndexUsername(arr: ArrayList<User>, item: String): Int? {
         return (arr.indices)
