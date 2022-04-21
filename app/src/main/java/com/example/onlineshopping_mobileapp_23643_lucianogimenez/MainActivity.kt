@@ -1,8 +1,8 @@
 package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -19,14 +19,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val buttonClick = findViewById<Button>(R.id.login_login_button)
-        buttonClick.setOnClickListener {
+        val loginButtonClick = findViewById<Button>(R.id.login_login_button)
+        loginButtonClick.setOnClickListener {
             if (findViewById<EditText>(R.id.user_name_login).text.toString() != "" &&
                 findViewById<EditText>(R.id.password_login).text.toString() != ""
             ) {
                 val username = findViewById<EditText>(R.id.user_name_login).text.toString()
                 val password = findViewById<EditText>(R.id.password_login).text.toString()
-                fetchJsonData(username!!, password!!)
+                fetchJsonData(username, password)
             } else {
                 Toast.makeText(
                     this,
@@ -36,10 +36,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val registerButtonClick = findViewById<Button>(R.id.register_button_login)
+        registerButtonClick.setOnClickListener{
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun fetchJsonData(username: String, password: String) {
-        //repos
         val url = "https://fakestoreapi.com/users"
         val request = Request.Builder().url(url).build()
 
@@ -61,10 +66,11 @@ class MainActivity : AppCompatActivity() {
                         //println(usersList)
                         val userIndex = findIndexUsername(usersList, username)
                         //println("index:$userIndex")
-                        if (userIndex != null){
+                        runOnUiThread{if (userIndex != null){
                             if (usersList[userIndex].password == password){
                                 //println("You are in")
-                            }
+                                Toast.makeText(this@MainActivity,"You are in",Toast.LENGTH_LONG).show()
+                            }}
                         }
                     }
                 }
@@ -76,5 +82,4 @@ class MainActivity : AppCompatActivity() {
         return (arr.indices)
             .firstOrNull { i: Int -> item == arr[i].username }
     }
-
 }
