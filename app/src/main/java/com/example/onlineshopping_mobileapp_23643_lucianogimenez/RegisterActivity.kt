@@ -12,7 +12,11 @@ import okhttp3.*
 import java.io.IOException
 
 class RegisterActivity: AppCompatActivity() {
-    val NEW_USER_KEY = "new_user"
+
+    companion object{
+        val NEW_USER_KEY = "new_user"
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +39,11 @@ class RegisterActivity: AppCompatActivity() {
             val newUser = User (email, username, password, name, address, phone)
             val gson = GsonBuilder().create()
             val jsonNewUser = gson.toJson(newUser)
-            println(jsonNewUser)
+            //println(jsonNewUser)
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra(NEW_USER_KEY, jsonNewUser)
+            //Log.i("lucho", "register: $jsonNewUser")
+            startActivity(intent)
         }
     }
 

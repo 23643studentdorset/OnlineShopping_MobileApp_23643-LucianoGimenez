@@ -14,13 +14,25 @@ import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var usersList: ArrayList<User>
+    var usersList = ArrayList<User>()
+    private lateinit var usersListGson: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         supportActionBar?.title = "Login Page"
+
+        val bundle : Bundle ?= intent.extras
+        val jsonNewUser = bundle?.getString(RegisterActivity.NEW_USER_KEY)
+        //Log.i("lucho", "Pre if main $jsonNewUser")
+
+        if (jsonNewUser != null){
+            val gson = GsonBuilder().create()
+            val newUser = gson.fromJson(jsonNewUser, User::class.java)
+            //Log.i("lucho", "object $newUser")
+            usersList.add(newUser)
+        }
 
         val loginButtonClick = findViewById<Button>(R.id.login_login_button)
         loginButtonClick.setOnClickListener {
@@ -29,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val username = findViewById<EditText>(R.id.user_name_login).text.toString()
                 val password = findViewById<EditText>(R.id.password_login).text.toString()
-                fetchJsonData(username, password, "https://fakestoreapi.com/users")
+                fetchJsonData(username, password)
             } else {
                 Toast.makeText(
                     this,
@@ -47,7 +59,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun fetchJsonData(username: String, password: String, url: String) {
+    private fun fetchJsonData(username: String, password: String) {
+        val url = "https://fakestoreapi.com/users"
         val request = Request.Builder().url(url).build()
 
         val client = OkHttpClient()
@@ -64,8 +77,9 @@ class MainActivity : AppCompatActivity() {
                         val body = response.body?.string()
                         //println("users: $body")
                         val gson = GsonBuilder().create()
-                        usersList = gson.fromJson(body, Users::class.java)
+                        usersListGson = gson.fromJson(body, Users::class.java)
                         //println(usersList)
+                        usersList.addAll(usersListGson)
                         val userIndex = findIndexUsername(usersList, username)
                         //println("index:$userIndex")
                         runOnUiThread{if (userIndex != null){
@@ -83,4 +97,5 @@ class MainActivity : AppCompatActivity() {
         return (arr.indices)
             .firstOrNull { i: Int -> item == arr[i].username }
     }
+
 }
