@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class AdapterCategories (private val categoriesList: Array<String>, val context: Context):RecyclerView.Adapter<CustomViewHolder>() {
+class AdapterCategories (private val categoriesList: ArrayList<String>, val context: Context):RecyclerView.Adapter<CustomViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.category_item, parent, false)

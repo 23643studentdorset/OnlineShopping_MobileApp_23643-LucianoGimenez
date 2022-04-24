@@ -10,10 +10,10 @@
 
     <Button
         android:id="@+id/category_filter"
-        android:layout_width="150dp"
+        android:layout_width="190dp"
         android:layout_height="46dp"
         android:backgroundTint="@color/button"
-        tools:text="electronics"
+        tools:text="women's clothing"
         android:textColor="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
