@@ -7,14 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import okhttp3.*
-import org.json.JSONObject
-import org.json.JSONTokener
 import java.io.IOException
 
 class ShopActivity: AppCompatActivity() {
 
     private lateinit var testList: ArrayList<String>
-    private lateinit var newRecyclerView : RecyclerView
+    private lateinit var categoriesRecyclerView : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,14 +21,14 @@ class ShopActivity: AppCompatActivity() {
         testList = arrayListOf<String>("cat", "dog", "pony")
 
 
-        newRecyclerView = findViewById(R.id.recyclerView_categories)
-        newRecyclerView.layoutManager = LinearLayoutManager(this)
+        categoriesRecyclerView = findViewById(R.id.recyclerView_categories)
+        categoriesRecyclerView.layoutManager = LinearLayoutManager(this)
 
 
         fetchJson("https://fakestoreapi.com/products/categories")
 
     }
-    fun fetchJson(url: String) {
+    private fun fetchJson(url: String) {
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         client.run {
@@ -43,17 +41,21 @@ class ShopActivity: AppCompatActivity() {
                     if (response.isSuccessful) {
                         val body = response.body?.string()
                         //println("categories: $body")
-                        val requestToParse = "\"categories\":$body"
-                        println(requestToParse)
+                        //val requestToParse = "\"categories\":$body"
+                        //println(requestToParse)
 
                         val gson = GsonBuilder().create()
                         val testList2 = gson.fromJson(body, Categories::class.java)
-                        println(testList2[0])
+                        //println(testList2[0])
                         runOnUiThread {
-                            newRecyclerView.adapter = AdapterCategories(testList2, this@ShopActivity)
+                            var categoriesAdapter = AdapterCategories(testList2)
+                            categoriesRecyclerView.adapter = categoriesAdapter
+                            categoriesAdapter.setOnItemClickListener(object : AdapterCategories.onItemClicklistener {
+                                override fun onItemClick(position: Int) {
+                                    println("you clicked item $position")
+                                }
+                            })
                         }
-
-
                     }
                 }
             })

@@ -9,11 +9,22 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class AdapterCategories (private val categoriesList: ArrayList<String>, val context: Context):RecyclerView.Adapter<CustomViewHolder>() {
+class AdapterCategories (private val categoriesList: ArrayList<String>):RecyclerView.Adapter<CustomViewHolder>() {
+
+    private lateinit var mListener : onItemClicklistener
+
+    interface onItemClicklistener {
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener:onItemClicklistener){
+        mListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.category_item, parent, false)
-        return CustomViewHolder(cellForRow)
+        return CustomViewHolder(cellForRow,mListener)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
@@ -26,7 +37,13 @@ class AdapterCategories (private val categoriesList: ArrayList<String>, val cont
 
 }
 
-class CustomViewHolder(private val view: View):RecyclerView.ViewHolder(view){
+class CustomViewHolder(private val view: View, listener: AdapterCategories.onItemClicklistener):RecyclerView.ViewHolder(view){
     val category: Button = itemView.findViewById(R.id.category_filter)
+
+    init{
+        category.setOnClickListener {
+            listener.onItemClick(adapterPosition)
+        }
+    }
 
 }
