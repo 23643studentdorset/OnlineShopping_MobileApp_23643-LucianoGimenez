@@ -18,17 +18,18 @@ class ShopActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop)
 
-        testList = arrayListOf<String>("cat", "dog", "pony")
+        //testList = arrayListOf<String>("cat", "dog", "pony")
 
 
         categoriesRecyclerView = findViewById(R.id.recyclerView_categories)
         categoriesRecyclerView.layoutManager = LinearLayoutManager(this)
 
 
-        fetchJson("https://fakestoreapi.com/products/categories")
+        fetchCategories()
 
     }
-    private fun fetchJson(url: String) {
+    private fun fetchCategories() {
+        val url = "https://fakestoreapi.com/products/categories"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         client.run {
@@ -41,18 +42,16 @@ class ShopActivity: AppCompatActivity() {
                     if (response.isSuccessful) {
                         val body = response.body?.string()
                         //println("categories: $body")
-                        //val requestToParse = "\"categories\":$body"
-                        //println(requestToParse)
-
                         val gson = GsonBuilder().create()
-                        val testList2 = gson.fromJson(body, Categories::class.java)
+                        val categoriesList = gson.fromJson(body, Categories::class.java)
                         //println(testList2[0])
                         runOnUiThread {
-                            var categoriesAdapter = AdapterCategories(testList2)
+                            var categoriesAdapter = AdapterCategories(categoriesList)
                             categoriesRecyclerView.adapter = categoriesAdapter
                             categoriesAdapter.setOnItemClickListener(object : AdapterCategories.onItemClicklistener {
                                 override fun onItemClick(position: Int) {
-                                    println("you clicked item $position")
+                                    println(categoriesList[position])
+                                    fetchProducts(categoriesList[position])
                                 }
                             })
                         }
@@ -61,4 +60,27 @@ class ShopActivity: AppCompatActivity() {
             })
         }
     }
+
+    private fun fetchProducts (category: String){
+        val url = "https://fakestoreapi.com/products/category/$category"
+        val request = Request.Builder().url(url).build()
+        val client = OkHttpClient()
+        client.run{
+            newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("lucho", "$e")
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    if (response.isSuccessful){
+                        val body = response.body?.string()
+                        println("products: $body")
+                    }
+                }
+            })
+        }
+    }
+
+
+
 }
