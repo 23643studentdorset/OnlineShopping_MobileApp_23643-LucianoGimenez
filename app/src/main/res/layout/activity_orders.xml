@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -19,8 +19,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_orders"
-        android:layout_width="300dp"
-        android:layout_height="319dp"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -29,7 +29,7 @@
         app:layout_constraintVertical_bias="0.25" />
 
     <Button
-        android:id="@+id/shop_button_cart"
+        android:id="@+id/shop_button_orders"
         android:layout_width="95dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.88" />
 
     <Button
-        android:id="@+id/cart_button_cart"
+        android:id="@+id/cart_button_orders"
         android:layout_width="95dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button"
@@ -53,15 +53,15 @@
         android:layout_marginStart="2dp"
         android:textColor="@color/background"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/shop_button_cart"
+        app:layout_constraintBottom_toBottomOf="@+id/shop_button_orders"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/shop_button_cart"
-        app:layout_constraintTop_toTopOf="@+id/shop_button_cart"
+        app:layout_constraintStart_toEndOf="@+id/shop_button_orders"
+        app:layout_constraintTop_toTopOf="@+id/shop_button_orders"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/orders_buttom_cart"
+        android:id="@+id/orders_button_orders"
         android:layout_width="95dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/button"
@@ -69,15 +69,15 @@
         android:text="@string/orders"
         android:textColor="@color/background"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/shop_button_cart"
+        app:layout_constraintBottom_toBottomOf="@+id/shop_button_orders"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/cart_button_cart"
-        app:layout_constraintTop_toTopOf="@+id/shop_button_cart"
+        app:layout_constraintStart_toEndOf="@+id/cart_button_orders"
+        app:layout_constraintTop_toTopOf="@+id/shop_button_orders"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/profile_button_cart"
+        android:id="@+id/profile_button_orders"
         android:layout_width="95dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -86,9 +86,9 @@
         android:text="@string/profile"
         android:textColor="@color/background"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/shop_button_cart"
+        app:layout_constraintBottom_toBottomOf="@+id/shop_button_orders"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/orders_buttom_cart"
-        app:layout_constraintTop_toTopOf="@+id/shop_button_cart" />
+        app:layout_constraintStart_toEndOf="@+id/orders_button_orders"
+        app:layout_constraintTop_toTopOf="@+id/shop_button_orders" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

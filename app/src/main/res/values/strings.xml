@@ -28,5 +28,6 @@
     <string name="checkout">Proceed to checkout</string>
     <string name="about_this_app">About this App</string>
     <string name="rate">Rate:</string>
-
+    <string name="increase">increase item</string>
+    <string name="decrease">decrease item</string>
 </resources>

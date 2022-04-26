@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
-import java.io.Serializable
+
 
 class MainActivity : AppCompatActivity() {
 
