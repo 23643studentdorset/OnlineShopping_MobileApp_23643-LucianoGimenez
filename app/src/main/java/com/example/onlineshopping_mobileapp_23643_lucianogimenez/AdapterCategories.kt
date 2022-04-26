@@ -1,15 +1,13 @@
 package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class AdapterCategories (private val categoriesList: ArrayList<String>):RecyclerView.Adapter<CustomViewHolder>() {
+class AdapterCategories (private val categoriesList: ArrayList<String>):RecyclerView.Adapter<CustomViewHolderCategory>() {
 
     private lateinit var mListener : onItemClicklistener
 
@@ -21,13 +19,13 @@ class AdapterCategories (private val categoriesList: ArrayList<String>):Recycler
         mListener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolderCategory {
         val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.category_item, parent, false)
-        return CustomViewHolder(cellForRow,mListener)
+        return CustomViewHolderCategory(cellForRow,mListener)
     }
 
-    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CustomViewHolderCategory, position: Int) {
         holder.category.text = categoriesList[position]
     }
 
@@ -37,7 +35,7 @@ class AdapterCategories (private val categoriesList: ArrayList<String>):Recycler
 
 }
 
-class CustomViewHolder(private val view: View, listener: AdapterCategories.onItemClicklistener):RecyclerView.ViewHolder(view){
+class CustomViewHolderCategory(private val view: View, listener: AdapterCategories.onItemClicklistener):RecyclerView.ViewHolder(view){
     val category: Button = itemView.findViewById(R.id.category_filter)
 
     init{

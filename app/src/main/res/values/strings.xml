@@ -27,5 +27,6 @@
     <string name="order_price">Price:</string>
     <string name="checkout">Proceed to checkout</string>
     <string name="about_this_app">About this App</string>
+    <string name="rate">Rate:</string>
 
 </resources>

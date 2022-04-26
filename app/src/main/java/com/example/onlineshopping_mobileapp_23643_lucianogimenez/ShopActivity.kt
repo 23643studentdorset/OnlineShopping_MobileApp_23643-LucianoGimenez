@@ -11,8 +11,9 @@ import java.io.IOException
 
 class ShopActivity: AppCompatActivity() {
 
-    private lateinit var testList: ArrayList<String>
+    //private lateinit var testList: ArrayList<String>
     private lateinit var categoriesRecyclerView : RecyclerView
+    private lateinit var productsRecyclerView : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +51,7 @@ class ShopActivity: AppCompatActivity() {
                             categoriesRecyclerView.adapter = categoriesAdapter
                             categoriesAdapter.setOnItemClickListener(object : AdapterCategories.onItemClicklistener {
                                 override fun onItemClick(position: Int) {
-                                    println(categoriesList[position])
+                                    //println(categoriesList[position])
                                     fetchProducts(categoriesList[position])
                                 }
                             })
@@ -74,7 +75,16 @@ class ShopActivity: AppCompatActivity() {
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful){
                         val body = response.body?.string()
-                        println("products: $body")
+                        //println("products: $body")
+                        val gson = GsonBuilder().create()
+                        val productsList = gson.fromJson(body, Products::class.java)
+                        //println(productsList)
+                        runOnUiThread {
+                            productsRecyclerView = findViewById(R.id.recyclerView_products)
+                            productsRecyclerView.layoutManager = LinearLayoutManager(this@ShopActivity)
+                            var productAdapter = AdapterProductsShop(productsList)
+                            productsRecyclerView.adapter = productAdapter
+                        }
                     }
                 }
             })
