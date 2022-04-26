@@ -22,7 +22,7 @@ class AdapterCategories (private val categoriesList: ArrayList<String>):Recycler
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolderCategory {
         val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.category_item, parent, false)
-        return CustomViewHolderCategory(cellForRow,mListener)
+        return CustomViewHolderCategory(cellForRow, mListener)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolderCategory, position: Int) {

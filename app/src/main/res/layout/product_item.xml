@@ -14,7 +14,7 @@
         android:src="@drawable/bag"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,7 @@
         android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toEndOf="@+id/product_image_product_item"
         app:layout_constraintTop_toTopOf="@+id/product_image_product_item"
         app:layout_constraintVertical_bias="0.0">

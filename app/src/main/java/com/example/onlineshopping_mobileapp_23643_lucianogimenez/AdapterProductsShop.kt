@@ -3,6 +3,7 @@ package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,10 +12,20 @@ import com.squareup.picasso.Picasso
 
 class AdapterProductsShop (private val productList: ArrayList<Product>): RecyclerView.Adapter<CustomViewHolderProduct>() {
 
+    private lateinit var mListener: onItemClicklistener
+
+    interface onItemClicklistener {
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClicklistener){
+        mListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolderProduct {
         val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.product_item, parent, false)
-        return CustomViewHolderProduct(cellForRow)
+        return CustomViewHolderProduct(cellForRow, mListener)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolderProduct, position: Int) {
@@ -34,12 +45,19 @@ class AdapterProductsShop (private val productList: ArrayList<Product>): Recycle
     }
 }
 
-class CustomViewHolderProduct (private val view: View):RecyclerView.ViewHolder(view){
+class CustomViewHolderProduct(private val view: View, listener: AdapterProductsShop.onItemClicklistener):RecyclerView.ViewHolder(view){
     val title: TextView = itemView.findViewById(R.id.title_product_item)
     val description: TextView = itemView.findViewById(R.id.description_product_item)
     val price: TextView = itemView.findViewById(R.id.price_product_item)
     val rate:TextView = itemView.findViewById(R.id.rate_product_item)
     val image: ImageView = itemView.findViewById(R.id.product_image_product_item)
+    val addButton: Button = itemView.findViewById(R.id.add_to_cart_button_product_item)
+
+    init{
+        addButton.setOnClickListener {
+            listener.onItemClick(adapterPosition)
+        }
+    }
 }
 
 

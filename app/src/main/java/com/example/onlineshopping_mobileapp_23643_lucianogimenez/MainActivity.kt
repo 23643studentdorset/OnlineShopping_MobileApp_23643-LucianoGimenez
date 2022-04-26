@@ -60,7 +60,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchJsonData(username: String, password: String) {
-        val url = "https://fakestoreapi.com/users"
+        //val url = "https://fakestoreapi.com/users"
+        val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample.json"
         val request = Request.Builder().url(url).build()
 
         val client = OkHttpClient()

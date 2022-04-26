@@ -14,7 +14,7 @@
         android:src="@drawable/bag"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintHorizontal_bias="0.012"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,18 +34,24 @@
         app:layout_constraintVertical_bias="0.0"
         tools:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops" />
 
-    <TextView
-        android:id="@+id/description_cart_item"
+    <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="225dp"
-        android:layout_height="109dp"
-        android:textColor="@color/background_light2"
+        android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toEndOf="@+id/product_image_cart_image"
         app:layout_constraintTop_toBottomOf="@+id/title_cart_item"
-        app:layout_constraintVertical_bias="0.125"
-        tools:text="Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday" />
+        app:layout_constraintVertical_bias="0.125">
+
+        <TextView
+            android:id="@+id/description_cart_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/background_light2"
+            tools:text="Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/price_cart_item"
@@ -58,8 +64,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/description_cart_item"
-        app:layout_constraintVertical_bias="0.84"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+        app:layout_constraintVertical_bias="0.716"
         tools:text="109.95" />
 
     <TextView
@@ -137,7 +143,7 @@
         android:id="@+id/rate_product_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="76dp"
         android:textColor="@color/background_light2"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView18"

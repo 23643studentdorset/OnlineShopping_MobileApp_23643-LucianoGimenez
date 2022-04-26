@@ -44,7 +44,8 @@ class ShopActivity: AppCompatActivity() {
 
     }
     private fun fetchCategories() {
-        val url = "https://fakestoreapi.com/products/categories"
+        //val url = "https://fakestoreapi.com/products/categories"
+        val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample2.json"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         client.run {
@@ -77,7 +78,8 @@ class ShopActivity: AppCompatActivity() {
     }
 
     private fun fetchProducts (category: String){
-        val url = "https://fakestoreapi.com/products/category/$category"
+        //val url = "https://fakestoreapi.com/products/category/$category"
+        val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample3.json"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         client.run{
@@ -98,6 +100,11 @@ class ShopActivity: AppCompatActivity() {
                             productsRecyclerView.layoutManager = LinearLayoutManager(this@ShopActivity)
                             val productAdapter = AdapterProductsShop(productsList)
                             productsRecyclerView.adapter = productAdapter
+                            productAdapter.setOnItemClickListener(object : AdapterProductsShop.onItemClicklistener{
+                                override fun onItemClick(position: Int) {
+                                    println(productsList[position].title)
+                                }
+                            })
                         }
                     }
                 }

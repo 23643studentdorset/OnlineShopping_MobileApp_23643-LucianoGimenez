@@ -24,4 +24,8 @@ class OrdersActivity: AppCompatActivity(){
             startActivity(intent)
         }
     }
+    private  fun fetchCart(){
+        val url = "https://fakestoreapi.com/carts"
+    }
+
 }
