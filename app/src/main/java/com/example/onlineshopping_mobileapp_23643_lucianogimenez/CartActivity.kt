@@ -1,21 +1,27 @@
 package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
 
 class CartActivity: AppCompatActivity()  {
+
+    private lateinit var productsRecyclerView : RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
         supportActionBar?.title = "Cart Page"
-
         fetchProducts()
+
 
         findViewById<Button>(R.id.shop_button_cart).setOnClickListener {
             val intent = Intent(this, ShopActivity::class.java)
@@ -41,13 +47,15 @@ class CartActivity: AppCompatActivity()  {
                     Log.i("lucho", "$e")
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
                         val body = response.body?.string()
-                        println("products: $body")
+                        //println("productsCart: $body")
                         val gson = GsonBuilder().create()
                         val cartList = gson.fromJson(body, Cart::class.java)
                         runOnUiThread {
+                            val productListCart = ArrayList<Product>()
                             for (i in cartList.products.indices) {
                                 val productId = cartList.products[i].productId
                                 //println(productId)
@@ -62,17 +70,24 @@ class CartActivity: AppCompatActivity()  {
                                         override fun onResponse(call: Call, response: Response) {
                                             if (response.isSuccessful) {
                                                 val body2 = response.body?.string()
-                                                println("products: $body2")
-                                                val productCart = gson.fromJson(body, Product::class.java)
+                                                //println("products: $body2")
+                                                val productCart = gson.fromJson(body2, Product::class.java)
                                                 runOnUiThread {
-
+                                                    productListCart.add(productCart)
                                                 }
                                             }
                                         }
                                     })
                                 }
-                                println(cartList.products[i].quantity)
+                                //println(cartList.products[i].quantity)
                             }
+                            productsRecyclerView = findViewById(R.id.recyclerView_cart)
+                            productsRecyclerView.layoutManager = LinearLayoutManager(this@CartActivity)
+                            productsRecyclerView.adapter = AdapterProductsCart(productListCart, cartList.products)
+                            println("Here")
+                            println("productListCart: $productListCart")
+                            println("cartProducts: $cartList.products")
+                            //productsRecyclerView.adapter!!.notifyDataSetChanged()
                         }
                     }
                 }

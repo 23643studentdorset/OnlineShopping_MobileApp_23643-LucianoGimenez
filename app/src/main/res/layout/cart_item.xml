@@ -132,15 +132,15 @@
         android:textColor="@color/background_light2"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/rate_product_item"
-        app:layout_constraintEnd_toStartOf="@+id/rate_product_item"
+        app:layout_constraintBottom_toBottomOf="@+id/rate_cart_item"
+        app:layout_constraintEnd_toStartOf="@+id/rate_cart_item"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rate_product_item"
+        app:layout_constraintTop_toTopOf="@+id/rate_cart_item"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/rate_product_item"
+        android:id="@+id/rate_cart_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="76dp"
