@@ -14,13 +14,22 @@ import java.io.IOException
 
 class CartActivity: AppCompatActivity()  {
 
-    private lateinit var productsRecyclerView : RecyclerView
+    private lateinit var newRecyclerView : RecyclerView
+    private lateinit var quantityList: ArrayList<Int>
+    private lateinit var productList: ArrayList<Product>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
         supportActionBar?.title = "Cart Page"
         fetchProducts()
+
+        newRecyclerView = findViewById(R.id.recyclerView_cart)
+        newRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        findViewById<Button>(R.id.button_checkout).setOnClickListener {
+            newRecyclerView.adapter = AdapterProductsCart(productList, quantityList)
+        }
 
 
         findViewById<Button>(R.id.shop_button_cart).setOnClickListener {
@@ -37,61 +46,71 @@ class CartActivity: AppCompatActivity()  {
         }
     }
     private fun fetchProducts(){
+        quantityList = arrayListOf<Int>()
+        productList = arrayListOf<Product>()
+
         val url = "https://fakestoreapi.com/carts/5"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         client.run {
             newCall(request).enqueue(object :Callback{
-
                 override fun onFailure(call: Call, e: IOException) {
                     Log.i("lucho", "$e")
                 }
 
-                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call, response: Response) {
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful){
                         val body = response.body?.string()
-                        //println("productsCart: $body")
+                       // println("cart: $body")
+                        var url2 = ""
                         val gson = GsonBuilder().create()
-                        val cartList = gson.fromJson(body, Cart::class.java)
-                        runOnUiThread {
-                            val productListCart = ArrayList<Product>()
-                            for (i in cartList.products.indices) {
-                                val productId = cartList.products[i].productId
-                                //println(productId)
-                                val urlProduct ="https://fakestoreapi.com/products/$productId"
-                                val requestProduct = Request.Builder().url(urlProduct).build()
-                                client.run {
-                                    newCall(requestProduct).enqueue(object : Callback{
-                                        override fun onFailure(call: Call, e: IOException) {
-                                            Log.i("lucho", "$e")
-                                        }
+                        val cart = gson.fromJson(body, Cart::class.java)
+                        for (item in cart.products){
+                            //println(item.quantity)
+                            //println(item.productId)
+                            quantityList.add(item.quantity)
+                            //println("quantityList: $quantityList")
+                            url2 = "https://fakestoreapi.com/products/${item.productId}"
+                            val requestProduct = Request.Builder().url(url2).build()
+                            client.run{
+                                newCall(requestProduct).enqueue(object :Callback{
+                                    override fun onFailure(call: Call, e: IOException) {
+                                        Log.i("lucho", "$e")
+                                    }
 
-                                        override fun onResponse(call: Call, response: Response) {
-                                            if (response.isSuccessful) {
-                                                val body2 = response.body?.string()
-                                                //println("products: $body2")
-                                                val productCart = gson.fromJson(body2, Product::class.java)
-                                                runOnUiThread {
-                                                    productListCart.add(productCart)
-                                                }
-                                            }
-                                        }
-                                    })
-                                }
-                                //println(cartList.products[i].quantity)
+                                    override fun onResponse(call: Call, response: Response) {
+                                        val body2 = response.body?.string()
+                                        //println("body:$body2")
+                                        val gson2 = GsonBuilder().create()
+                                        val product = gson2.fromJson(body2, Product::class.java)
+                                        println("product: $product")
+                                        productList.add(product)
+                                        println("productList: $productList")
+                                    }
+                                })
                             }
-                            productsRecyclerView = findViewById(R.id.recyclerView_cart)
-                            productsRecyclerView.layoutManager = LinearLayoutManager(this@CartActivity)
-                            productsRecyclerView.adapter = AdapterProductsCart(productListCart, cartList.products)
-                            println("Here")
-                            println("productListCart: $productListCart")
-                            println("cartProducts: $cartList.products")
-                            //productsRecyclerView.adapter!!.notifyDataSetChanged()
+                        }
+
+                    }
+                    runOnUiThread {
+                        println("productList2: $productList")
+                        println("quantityList2: $quantityList")
+                        while (productList.size == 0){
+                            println("****productList*****: $productList")
+                            newRecyclerView.adapter = AdapterProductsCart(productList, quantityList)
                         }
                     }
+
                 }
             })
         }
     }
 }
+
+
+
+
+
+
+
+

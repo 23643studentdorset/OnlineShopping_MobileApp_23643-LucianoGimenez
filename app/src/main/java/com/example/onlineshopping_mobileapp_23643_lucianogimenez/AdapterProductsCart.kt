@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 
-class AdapterProductsCart (private val productList: ArrayList<Product>, private val productsCart: ArrayList<ProductsCart> ): RecyclerView.Adapter<CustomViewHolderCart>() {
+class AdapterProductsCart (private val productList: ArrayList<Product>, private val quantityList: ArrayList<Int> ): RecyclerView.Adapter<CustomViewHolderCart>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolderCart {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,7 +20,7 @@ class AdapterProductsCart (private val productList: ArrayList<Product>, private 
 
     override fun onBindViewHolder(holder: CustomViewHolderCart, position: Int) {
         val item = productList[position]
-        val productCart = productsCart[position]
+        val quantity = quantityList[position]
         holder.title.text = item.title
         holder.description.text = item.description
         holder.price.text = item.price
@@ -29,7 +29,7 @@ class AdapterProductsCart (private val productList: ArrayList<Product>, private 
             .load(item.image)
             .memoryPolicy(MemoryPolicy.NO_CACHE)
             .into(holder.image)
-        holder.quantity.text = productCart.quantity.toString()
+        holder.quantity.text = quantity.toString()
     }
 
     override fun getItemCount(): Int {
@@ -43,6 +43,6 @@ class CustomViewHolderCart(private val view: View):RecyclerView.ViewHolder(view)
     val rate: TextView = itemView.findViewById(R.id.rate_cart_item)
     val price: TextView = itemView.findViewById(R.id.price_cart_item)
     val quantity: TextView = itemView.findViewById(R.id.quantity)
-    val minusButton: Button = itemView.findViewById(R.id.button_minus)
-    val plusButton: Button = itemView.findViewById(R.id.button_plus)
+    //val minusButton: Button = itemView.findViewById(R.id.button_minus)
+    //val plusButton: Button = itemView.findViewById(R.id.button_plus)
 }
