@@ -115,13 +115,12 @@
         android:id="@+id/first_name_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/background_light2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.389"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_name_profile"
-        tools:text="@string/first_name" />
+        tools:text="Derek" />
 
     <TextView
         android:id="@+id/last_name_profile"
@@ -129,10 +128,10 @@
         android:layout_height="wrap_content"
         android:textColor="@color/background_light2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.031"
         app:layout_constraintStart_toEndOf="@+id/first_name_profile"
         app:layout_constraintTop_toTopOf="@+id/first_name_profile"
-        tools:text="@string/last_name" />
+        tools:text="Powell" />
 
     <TextView
         android:id="@+id/email_profile"
@@ -201,7 +200,7 @@
         tools:text="@string/zip_code" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_about_this_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/extra_color_blue"
@@ -212,5 +211,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/zip_code"
         app:layout_constraintVertical_bias="0.275" />
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/extra_color_blue"
+        android:text="@string/logout"
+        android:textColor="@color/background"
+        app:layout_constraintBottom_toTopOf="@+id/shop_button_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_about_this_app"
+        app:layout_constraintVertical_bias="0.121" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

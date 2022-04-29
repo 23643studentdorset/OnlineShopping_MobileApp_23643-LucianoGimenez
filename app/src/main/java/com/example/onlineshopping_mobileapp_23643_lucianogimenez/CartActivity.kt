@@ -1,6 +1,5 @@
 package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +13,7 @@ import java.io.IOException
 
 class CartActivity: AppCompatActivity()  {
 
-    private lateinit var newRecyclerView : RecyclerView
+    private lateinit var recyclerViewCart : RecyclerView
     private lateinit var quantityList: ArrayList<Int>
     private lateinit var productList: ArrayList<Product>
 
@@ -24,13 +23,8 @@ class CartActivity: AppCompatActivity()  {
         supportActionBar?.title = "Cart Page"
         fetchProducts()
 
-        newRecyclerView = findViewById(R.id.recyclerView_cart)
-        newRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        findViewById<Button>(R.id.button_checkout).setOnClickListener {
-            newRecyclerView.adapter = AdapterProductsCart(productList, quantityList)
-        }
-
+        recyclerViewCart = findViewById(R.id.recyclerView_cart)
+        recyclerViewCart.layoutManager = LinearLayoutManager(this)
 
         findViewById<Button>(R.id.shop_button_cart).setOnClickListener {
             val intent = Intent(this, ShopActivity::class.java)
@@ -46,10 +40,10 @@ class CartActivity: AppCompatActivity()  {
         }
     }
     private fun fetchProducts(){
-        quantityList = arrayListOf<Int>()
-        productList = arrayListOf<Product>()
+        quantityList = arrayListOf()
+        productList = arrayListOf()
 
-        val url = "https://fakestoreapi.com/carts/5"
+        val url = "https://fakestoreapi.com/carts/6"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         client.run {
@@ -62,7 +56,7 @@ class CartActivity: AppCompatActivity()  {
                     if (response.isSuccessful){
                         val body = response.body?.string()
                        // println("cart: $body")
-                        var url2 = ""
+                        var url2: String
                         val gson = GsonBuilder().create()
                         val cart = gson.fromJson(body, Cart::class.java)
                         for (item in cart.products){
@@ -83,9 +77,9 @@ class CartActivity: AppCompatActivity()  {
                                         //println("body:$body2")
                                         val gson2 = GsonBuilder().create()
                                         val product = gson2.fromJson(body2, Product::class.java)
-                                        println("product: $product")
+                                        //println("product: $product")
                                         productList.add(product)
-                                        println("productList: $productList")
+                                        //println("productList: $productList")
                                     }
                                 })
                             }
@@ -93,14 +87,12 @@ class CartActivity: AppCompatActivity()  {
 
                     }
                     runOnUiThread {
-                        println("productList2: $productList")
-                        println("quantityList2: $quantityList")
+                        //println("productList2: $productList")
+                        //println("quantityList2: $quantityList")
                         while (productList.size == 0){
-                            println("****productList*****: $productList")
-                            newRecyclerView.adapter = AdapterProductsCart(productList, quantityList)
+                            recyclerViewCart.adapter = AdapterProductsCart(productList, quantityList)
                         }
                     }
-
                 }
             })
         }
