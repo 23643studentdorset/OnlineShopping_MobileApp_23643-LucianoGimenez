@@ -7,8 +7,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.*
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 
@@ -23,11 +25,11 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Login Page"
 
-        val bundle : Bundle ?= intent.extras
+        val bundle: Bundle? = intent.extras
         val jsonNewUser = bundle?.getString(RegisterActivity.NEW_USER_KEY)
         //Log.i("lucho", "Pre if main $jsonNewUser")
 
-        if (jsonNewUser != null){
+        if (jsonNewUser != null) {
             val gson = GsonBuilder().create()
             val newUser = gson.fromJson(jsonNewUser, User::class.java)
             //Log.i("lucho", "object $newUser")
@@ -43,16 +45,12 @@ class MainActivity : AppCompatActivity() {
                 val password = findViewById<EditText>(R.id.password_login).text.toString()
                 fetchJsonData(username, password)
             } else {
-                Toast.makeText(
-                    this,
-                    "You have to write a username and/or password",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "You have to write a username and/or password", Toast.LENGTH_SHORT).show()
             }
         }
 
         val registerButtonClick = findViewById<Button>(R.id.register_button_login)
-        registerButtonClick.setOnClickListener{
+        registerButtonClick.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
@@ -60,11 +58,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchJsonData(username: String, password: String) {
-        //val url = "https://fakestoreapi.com/users"
-        val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample.json"
-        val request = Request.Builder().url(url).build()
-
+        val url = "https://fakestoreapi.com/users"
+        //val url = "https://fakestoreapi.com/auth/login"
+        //val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample.json"
         val client = OkHttpClient()
+        val request  = Request
+            .Builder()
+            .url(url)
+            .build()
+
+        /*
+        val userLogin = UserLogin (username, password)
+        val gson = GsonBuilder().create()
+        val jsonLoginUser = gson.toJson(userLogin)
+        println(jsonLoginUser)
+        val request  = Request.Builder().url(url).post(jsonLoginUser.toRequestBody()).build()
+        client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                    println("error: $e")
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    println("success: ${response.body}")
+                }
+
+            })
+
+    }
+    */
+
         client.run {
             newCall(request).enqueue(object : Callback {
 
@@ -83,23 +104,28 @@ class MainActivity : AppCompatActivity() {
                         usersList.addAll(usersListGson)
                         val userIndex = findIndexUsername(usersList, username)
                         //println("index:$userIndex")
-                        runOnUiThread{if (userIndex != null){
-                            if (usersList[userIndex].password == password){
-                                //println("You are in")
-                                Toast.makeText(this@MainActivity,"You are in",Toast.LENGTH_LONG).show()
-                                val intentShop = Intent(this@MainActivity, ShopActivity::class.java)
-                                startActivity(intentShop)
-                            }}
+                        runOnUiThread {
+                            if (userIndex != null) {
+                                if (usersList[userIndex].password == password) {
+                                    //println("You are in")
+                                    Toast.makeText(this@MainActivity, "You are in", Toast.LENGTH_LONG
+                                    ).show()
+                                    val intentShop = Intent(this@MainActivity, ShopActivity::class.java)
+                                    startActivity(intentShop)
+                                }
+                            }
                         }
                     }
                 }
             })
         }
     }
+
+
     private fun findIndexUsername(arr: ArrayList<User>, item: String): Int? {
         return (arr.indices)
             .firstOrNull { i: Int -> item == arr[i].username }
     }
-
-
 }
+
+
