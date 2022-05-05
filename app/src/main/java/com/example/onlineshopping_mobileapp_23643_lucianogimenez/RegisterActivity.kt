@@ -33,7 +33,7 @@ class RegisterActivity: AppCompatActivity() {
                 Integer.parseInt(findViewById<EditText>(R.id.number_register).text.toString()), findViewById<EditText>(R.id.postal_code_register).text.toString(),
                 geolocation)
 
-            val newUser = User (email, username, password, name, address, phone)
+            val newUser = User (email, username, password, name, address, phone, 40)
             val gson = GsonBuilder().create()
             val jsonNewUser = gson.toJson(newUser)
             //println(jsonNewUser)

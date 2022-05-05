@@ -2,7 +2,7 @@ package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
 
 data class User( val email:String, val username: String, val password: String,
-                 val name: Name, val address: Address, val phone: String )
+                 val name: Name, val address: Address, val phone: String, val id: Int )
 
 data class Address( val city: String, val street: String, val number: Int,
                    val zipcode: String, val geolocation: Geolocation )

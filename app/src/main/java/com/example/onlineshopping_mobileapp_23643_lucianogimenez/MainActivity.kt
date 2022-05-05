@@ -1,13 +1,14 @@
 package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -19,11 +20,22 @@ class MainActivity : AppCompatActivity() {
     var usersList = ArrayList<User>()
     private lateinit var usersListGson: ArrayList<User>
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         supportActionBar?.title = "Login Page"
+        val sharedPreferences = getSharedPreferences("MY_APP_PREFERENCES",Context.MODE_PRIVATE)!!
+        val intentShop = Intent(this, ShopActivity::class.java)
+
+        val sharedToken = sharedPreferences.getString("Token", "No Login")
+        val sharedId = sharedPreferences.getInt("id", -1)
+        if (sharedToken != null && sharedId != -1){
+            Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show()
+            println("sharedId:$sharedId , sharedToken:$sharedToken")
+            startActivity(intentShop)
+        }
 
         val bundle: Bundle? = intent.extras
         val jsonNewUser = bundle?.getString(RegisterActivity.NEW_USER_KEY)
@@ -43,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val username = findViewById<EditText>(R.id.user_name_login).text.toString()
                 val password = findViewById<EditText>(R.id.password_login).text.toString()
-                fetchJsonData(username, password)
+                LogIn(username, password, sharedPreferences, intentShop)
             } else {
                 Toast.makeText(this, "You have to write a username and/or password", Toast.LENGTH_SHORT).show()
             }
@@ -57,48 +69,29 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun fetchJsonData(username: String, password: String) {
-        val url = "https://fakestoreapi.com/users"
-        //val url = "https://fakestoreapi.com/auth/login"
-        //val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample.json"
+    private fun LogIn(username: String, password: String, sharedPreferences: SharedPreferences, intentShop: Intent) {
+        val urlUsers = "https://fakestoreapi.com/users"
+        val urlLogIn = "https://fakestoreapi.com/auth/login"
         val client = OkHttpClient()
-        val request  = Request
+        val gson = GsonBuilder().create()
+
+        /*  Get request for users and store ID */
+        val requestUsers = Request
             .Builder()
-            .url(url)
+            .url(urlUsers)
             .build()
 
-        /*
-        val userLogin = UserLogin (username, password)
-        val gson = GsonBuilder().create()
-        val jsonLoginUser = gson.toJson(userLogin)
-        println(jsonLoginUser)
-        val request  = Request.Builder().url(url).post(jsonLoginUser.toRequestBody()).build()
-        client.newCall(request).enqueue(object : Callback{
-                override fun onFailure(call: Call, e: IOException) {
-                    println("error: $e")
-                }
-                override fun onResponse(call: Call, response: Response) {
-                    println("success: ${response.body}")
-                }
-
-            })
-
-    }
-    */
-
         client.run {
-            newCall(request).enqueue(object : Callback {
+            newCall(requestUsers).enqueue(object : Callback {
 
                 override fun onFailure(call: Call, e: IOException) {
                     Log.i("lucho", "$e")
-
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
                         val body = response.body?.string()
                         //println("users: $body")
-                        val gson = GsonBuilder().create()
                         usersListGson = gson.fromJson(body, Users::class.java)
                         //println(usersList)
                         usersList.addAll(usersListGson)
@@ -106,12 +99,10 @@ class MainActivity : AppCompatActivity() {
                         //println("index:$userIndex")
                         runOnUiThread {
                             if (userIndex != null) {
-                                if (usersList[userIndex].password == password) {
-                                    //println("You are in")
-                                    Toast.makeText(this@MainActivity, "You are in", Toast.LENGTH_LONG
-                                    ).show()
-                                    val intentShop = Intent(this@MainActivity, ShopActivity::class.java)
-                                    startActivity(intentShop)
+                                val userid = usersList[userIndex].id
+                                with(sharedPreferences.edit()) {
+                                    putInt("id", userid)
+                                    apply()
                                 }
                             }
                         }
@@ -119,8 +110,53 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-    }
 
+        /*  Post request to get and store token  */
+        val userLogin = UserLogin(username, password)
+        val jsonLoginUser = gson.toJson(userLogin)
+        //println(jsonLoginUser)
+        val request = Request.Builder()
+            .url(urlLogIn)
+            .addHeader("Content-Type", "application/json; charset=utf-8")
+            .post(jsonLoginUser.toRequestBody())
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+
+            override fun onFailure(call: Call, e: IOException) {
+                println("error: $e")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                //println("success:${response.code},  $body")
+                if ((body != "username or password is incorrect")) {
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "status: ${response.code}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        val tokenObj = gson.fromJson(body, Token::class.java)
+                        //println(tokenObj.token)
+                        with(sharedPreferences.edit()) {
+                            putString("Token", tokenObj.token)
+                            apply()
+                        }
+                        startActivity(intentShop)
+                    }
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Username or Password is incorrect",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        })
+    }
 
     private fun findIndexUsername(arr: ArrayList<User>, item: String): Int? {
         return (arr.indices)
