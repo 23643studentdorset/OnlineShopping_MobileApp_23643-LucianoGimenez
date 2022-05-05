@@ -51,7 +51,7 @@ class OrdersActivity: AppCompatActivity(){
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful){
                         val body = response.body?.string()
-                        println(body)
+                        //println(body)
                         val gson = GsonBuilder().create()
                         val cartsList = gson.fromJson(body, Carts::class.java)
                         //println(cartsList)
