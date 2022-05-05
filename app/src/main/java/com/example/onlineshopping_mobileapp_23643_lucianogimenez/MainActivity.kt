@@ -14,6 +14,9 @@ import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
+const val LAST_USER_ID_KEY = "LAST_USER_ID"
+const val MY_APP_PREFERENCES = "MY_APP_PREFERENCES"
+const val NEW_USER_KEY = "new_user"
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,13 +27,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         supportActionBar?.title = "Login Page"
-        val sharedPreferences = getSharedPreferences("MY_APP_PREFERENCES",Context.MODE_PRIVATE)!!
+
+        val sharedPreferences = getSharedPreferences(MY_APP_PREFERENCES,Context.MODE_PRIVATE)!!
         val intentShop = Intent(this, ShopActivity::class.java)
 
         val sharedToken = sharedPreferences.getString("Token", "No Login")
         val sharedId = sharedPreferences.getInt("id", -1)
+
         if (sharedToken != null && sharedId != -1){
             Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show()
             println("sharedId:$sharedId , sharedToken:$sharedToken")
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val bundle: Bundle? = intent.extras
-        val jsonNewUser = bundle?.getString(RegisterActivity.NEW_USER_KEY)
+        val jsonNewUser = bundle?.getString(NEW_USER_KEY)
         //Log.i("lucho", "Pre if main $jsonNewUser")
 
         if (jsonNewUser != null) {
@@ -48,6 +52,8 @@ class MainActivity : AppCompatActivity() {
             usersList.add(newUser)
         }
 
+        var lastUser = -1
+
         val loginButtonClick = findViewById<Button>(R.id.login_login_button)
         loginButtonClick.setOnClickListener {
             if (findViewById<EditText>(R.id.user_name_login).text.toString() != "" &&
@@ -55,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val username = findViewById<EditText>(R.id.user_name_login).text.toString()
                 val password = findViewById<EditText>(R.id.password_login).text.toString()
-                LogIn(username, password, sharedPreferences, intentShop)
+                lastUser = LogIn(username, password, sharedPreferences, intentShop)
             } else {
                 Toast.makeText(this, "You have to write a username and/or password", Toast.LENGTH_SHORT).show()
             }
@@ -63,13 +69,14 @@ class MainActivity : AppCompatActivity() {
 
         val registerButtonClick = findViewById<Button>(R.id.register_button_login)
         registerButtonClick.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+            val intentRegister = Intent(this, RegisterActivity::class.java)
+            intentRegister.putExtra(LAST_USER_ID_KEY, lastUser)
+            startActivity(intentRegister)
         }
 
     }
 
-    private fun LogIn(username: String, password: String, sharedPreferences: SharedPreferences, intentShop: Intent) {
+    private fun LogIn(username: String, password: String, sharedPreferences: SharedPreferences, intentShop: Intent): Int {
         val urlUsers = "https://fakestoreapi.com/users"
         val urlLogIn = "https://fakestoreapi.com/auth/login"
         val client = OkHttpClient()
@@ -147,15 +154,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     runOnUiThread {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Username or Password is incorrect",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        Toast.makeText(this@MainActivity, "Username or Password is incorrect", Toast.LENGTH_LONG).show()
                     }
                 }
             }
         })
+    return usersList.size
     }
 
     private fun findIndexUsername(arr: ArrayList<User>, item: String): Int? {
