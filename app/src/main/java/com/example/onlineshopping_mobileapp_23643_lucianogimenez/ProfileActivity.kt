@@ -1,5 +1,6 @@
 package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +19,16 @@ class ProfileActivity: AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         supportActionBar?.title = "Profile Page"
 
-        fetchUser()
+        val sharedPreferences = getSharedPreferences(MY_APP_PREFERENCES, Context.MODE_PRIVATE)!!
+        val sharedId = sharedPreferences.getInt("id", -1)
+
+        fetchUserInfo(sharedId)
+
+        findViewById<Button>(R.id.button_logout).setOnClickListener {
+           sharedPreferences.edit().remove("id").remove("Token").apply()
+            val intentLogIn = Intent(this, MainActivity::class.java)
+            startActivity(intentLogIn)
+        }
 
 
         findViewById<Button>(R.id.shop_button_profile).setOnClickListener {
@@ -35,8 +45,8 @@ class ProfileActivity: AppCompatActivity() {
         }
     }
 
-    private fun fetchUser(){
-        val url = "https://fakestoreapi.com/users/5"
+    private fun fetchUserInfo(sharedId:Int){
+        val url = "https://fakestoreapi.com/users/$sharedId"
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         client.run {
@@ -48,7 +58,7 @@ class ProfileActivity: AppCompatActivity() {
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful){
                         val body = response.body?.string()
-                        println(body)
+                        //println(body)
                         val gson = GsonBuilder().create()
                         val user = gson.fromJson(body, User::class.java)
                         //println(cartsList)
