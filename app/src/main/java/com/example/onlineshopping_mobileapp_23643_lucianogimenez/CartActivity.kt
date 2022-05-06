@@ -128,7 +128,7 @@ class CartActivity: AppCompatActivity() {
                     })
 
                     findViewById<TextView>(R.id.loading).visibility = View.GONE
-                    recyclerViewCart.visibility = View.VISIBLE}, 3000)
+                    recyclerViewCart.visibility = View.VISIBLE}, 10000)
             }
         })
     }

@@ -2,7 +2,6 @@ package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,8 +14,7 @@ import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
 import java.time.LocalDateTime
-import kotlin.properties.Delegates
-import kotlin.reflect.typeOf
+
 
 
 
@@ -36,8 +34,8 @@ class ShopActivity: AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences(MY_APP_PREFERENCES, Context.MODE_PRIVATE)!!
         val sharedId = sharedPreferences.getInt("id", -1)
-
         val currentCartShared = sharedPreferences.getString(CURRENT_CART_KEY, null)
+
         if (currentCartShared != null){
             currentCartJson = currentCartShared
         }
