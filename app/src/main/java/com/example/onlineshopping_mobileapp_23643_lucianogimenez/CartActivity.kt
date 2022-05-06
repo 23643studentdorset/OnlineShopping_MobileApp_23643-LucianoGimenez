@@ -34,7 +34,7 @@ class CartActivity: AppCompatActivity() {
         val sharedPreferences = getSharedPreferences(MY_APP_PREFERENCES, Context.MODE_PRIVATE)!!
         val sharedToken = sharedPreferences.getString("Token", "No Login")
         val sharedId = sharedPreferences.getInt("id", -1)
-        var jsonCurrentCart = sharedPreferences.getString(CURRENT_CART_KEY, null)
+        val jsonCurrentCart = sharedPreferences.getString(CURRENT_CART_KEY, null)
 
 
         recyclerViewCart = findViewById(R.id.recyclerView_cart)
@@ -85,7 +85,7 @@ class CartActivity: AppCompatActivity() {
                 var urlFetchProductInfo: String
                 //println(jsonCurrentCart)
                 if (jsonCurrentCart != null){
-                    var currentCart = gson.fromJson(jsonCurrentCart, Cart::class.java)
+                    val currentCart = gson.fromJson(jsonCurrentCart, Cart::class.java)
                     for (item in currentCart.products) {
                         quantityList.add(item.quantity)
                         urlFetchProductInfo = "https://fakestoreapi.com/products/${item.productId}"
@@ -109,9 +109,10 @@ class CartActivity: AppCompatActivity() {
                 }
 
                 Handler(Looper.getMainLooper()).postDelayed({
-                    var adapter = AdapterProductsCart(productList, quantityList)
+                    val adapter = AdapterProductsCart(productList, quantityList)
                     recyclerViewCart.adapter = adapter
                     adapter.setOnItemClickListener(object : AdapterProductsCart.OnItemClickListener{
+
                         override fun onItemClick(position: Int, operation: Int ) {
                             println("position:$position operation:$operation")
                             if (operation == 1){
@@ -121,7 +122,7 @@ class CartActivity: AppCompatActivity() {
                                 quantityList[position] += 1
                                 println("quantity:${quantityList[position]}")
                             }
-
+                            adapter.notifyItemChanged(position)
                         }
 
                     })
