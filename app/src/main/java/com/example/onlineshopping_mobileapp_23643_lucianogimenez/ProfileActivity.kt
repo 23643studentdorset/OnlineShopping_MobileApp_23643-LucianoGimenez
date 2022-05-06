@@ -25,7 +25,7 @@ class ProfileActivity: AppCompatActivity() {
         fetchUserInfo(sharedId)
 
         findViewById<Button>(R.id.button_logout).setOnClickListener {
-           sharedPreferences.edit().remove("id").remove("Token").apply()
+           sharedPreferences.edit().remove("id").remove("Token").remove(CURRENT_CART_KEY).apply()
             val intentLogIn = Intent(this, MainActivity::class.java)
             startActivity(intentLogIn)
         }

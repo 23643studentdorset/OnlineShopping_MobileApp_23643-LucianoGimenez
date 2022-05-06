@@ -17,6 +17,7 @@ import java.io.IOException
 const val LAST_USER_ID_KEY = "LAST_USER_ID"
 const val MY_APP_PREFERENCES = "MY_APP_PREFERENCES"
 const val NEW_USER_KEY = "new_user"
+const val CURRENT_CART_KEY = "current_cart"
 
 class MainActivity : AppCompatActivity() {
 

@@ -30,11 +30,13 @@ class CartActivity: AppCompatActivity() {
         val sharedToken = sharedPreferences.getString("Token", "No Login")
         val sharedId = sharedPreferences.getInt("id", -1)
         //fetchProducts()
+        var jsonCurrentCart = sharedPreferences.getString(CURRENT_CART_KEY, null)
+
 
         recyclerViewCart = findViewById(R.id.recyclerView_cart)
         recyclerViewCart.layoutManager = LinearLayoutManager(this)
 
-        fetchACartOfFrom(sharedId)
+        fetchACartOfFrom(sharedId, jsonCurrentCart)
 
         findViewById<Button>(R.id.shop_button_cart).setOnClickListener {
             val intent = Intent(this, ShopActivity::class.java)
@@ -50,7 +52,7 @@ class CartActivity: AppCompatActivity() {
         }
     }
 
-    private fun fetchACartOfFrom(userId: Int) {
+    private fun fetchACartOfFrom(userId: Int, jsonCurrentCart : String? ) {
         quantityList = arrayListOf()
         productList = arrayListOf()
         val urlFetchCarts = "https://fakestoreapi.com/carts/user/$userId"
@@ -68,31 +70,37 @@ class CartActivity: AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
                 val cartsList = gson.fromJson(body, Carts::class.java)
-                println("cartsList[0]:${cartsList[0]}")
+                //println("cartsList[0]:${cartsList[0]}")
                 var urlFetchProductInfo: String
-                for (item in cartsList[0].products) {
-                    quantityList.add(item.quantity)
-                    urlFetchProductInfo = "https://fakestoreapi.com/products/${item.productId}"
-                    val requestProduct = Request
-                        .Builder()
-                        .url(urlFetchProductInfo)
-                        .build()
-                    client.newCall(requestProduct).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            Log.i("lucho", "$e")
-                        }
+                //println(jsonCurrentCart)
+                if (jsonCurrentCart != null){
+                    var currentCart = gson.fromJson(jsonCurrentCart, Cart::class.java)
+                    for (item in currentCart.products) {
+                        quantityList.add(item.quantity)
+                        urlFetchProductInfo = "https://fakestoreapi.com/products/${item.productId}"
+                        val requestProduct = Request
+                            .Builder()
+                            .url(urlFetchProductInfo)
+                            .build()
+                        client.newCall(requestProduct).enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                Log.i("lucho", "$e")
+                            }
 
-                        override fun onResponse(call: Call, response: Response) {
-                            val bodyFetchProduct = response.body?.string()
-                            val product = gson.fromJson(bodyFetchProduct, Product::class.java)
-                            productList.add(product)
-                        }
-                    })
+                            override fun onResponse(call: Call, response: Response) {
+                                val bodyFetchProduct = response.body?.string()
+                                val product = gson.fromJson(bodyFetchProduct, Product::class.java)
+                                productList.add(product)
+                                println("Here")
+                            }
+                        })
+                    }
                 }
+
                 Handler(Looper.getMainLooper()).postDelayed({
                     recyclerViewCart.adapter = AdapterProductsCart(productList, quantityList)
                     findViewById<TextView>(R.id.loading).visibility = View.GONE
-                    recyclerViewCart.visibility = View.VISIBLE}, 1000)
+                    recyclerViewCart.visibility = View.VISIBLE}, 3000)
                 /*
                 runOnUiThread{
                     //println("productList2: $productList")
@@ -103,8 +111,6 @@ class CartActivity: AppCompatActivity() {
                 }
 
                  */
-
-
             }
         })
     }
