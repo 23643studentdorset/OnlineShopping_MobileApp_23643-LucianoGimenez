@@ -36,7 +36,7 @@ class OrdersActivity: AppCompatActivity(){
 
         val sharedPreferences = getSharedPreferences(MY_APP_PREFERENCES, Context.MODE_PRIVATE)!!
         val sharedId = sharedPreferences.getInt("id", -1)
-
+        val sharedToken = sharedPreferences.getString("Token", "No Login")
 
         recyclerViewOrders = findViewById(R.id.recyclerView_orders)
         recyclerViewOrders.layoutManager = LinearLayoutManager(this)
@@ -44,7 +44,7 @@ class OrdersActivity: AppCompatActivity(){
         recyclerViewOrdersProduct = findViewById(R.id.recyclerView_items_in_orders)
         recyclerViewOrdersProduct.layoutManager = LinearLayoutManager(this)
 
-        fetchCarts(sharedId, sharedPreferences)
+        fetchCarts(sharedId, sharedPreferences, sharedToken)
 
         findViewById<Button>(R.id.shop_button_orders).setOnClickListener {
             val intent = Intent(this, ShopActivity::class.java)
@@ -60,11 +60,19 @@ class OrdersActivity: AppCompatActivity(){
         }
     }
     @RequiresApi(Build.VERSION_CODES.O)
-    private  fun fetchCarts(sharedId: Int, sharedPreferences: SharedPreferences) {
+    private  fun fetchCarts(
+        sharedId: Int,
+        sharedPreferences: SharedPreferences,
+        sharedToken: String?
+    ) {
         cartPriceList = arrayListOf()
         currentCart  = Cart(-1, sharedId, LocalDateTime.now().toString(), mutableSetOf())
         val url = "https://fakestoreapi.com/carts/user/$sharedId"
-        val request = Request.Builder().url(url).build()
+        val request = Request
+            .Builder()
+            .addHeader("Authorization","Bearer $sharedToken")
+            .url(url)
+            .build()
         val client = OkHttpClient()
         val gson = GsonBuilder().create()
         client.run {
@@ -82,7 +90,7 @@ class OrdersActivity: AppCompatActivity(){
                             for (item in cartsList) {
                                 var singleCartPrice = 0.00
                                 for (product in item.products){
-                                    fetchProducts(product.productId)
+                                    fetchProducts(product.productId, sharedToken)
                                 }
                                 Handler(Looper.getMainLooper()).postDelayed({
                                     for (product in productsList){
@@ -123,10 +131,14 @@ class OrdersActivity: AppCompatActivity(){
             })
         }
     }
-    private fun fetchProducts(productId:Int){
+    private fun fetchProducts(productId:Int, sharedToken: String?){
         productsList = arrayListOf()
         val url = "https://fakestoreapi.com/products/$productId"
-        val request = Request.Builder().url(url).build()
+        val request = Request
+            .Builder()
+            .addHeader("Authorization","Bearer $sharedToken")
+            .url(url)
+            .build()
         val client = OkHttpClient()
         val gson = GsonBuilder().create()
         client.newCall(request).enqueue(object : Callback {

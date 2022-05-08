@@ -40,7 +40,7 @@ class CartActivity: AppCompatActivity() {
         recyclerViewCart = findViewById(R.id.recyclerView_cart)
         recyclerViewCart.layoutManager = LinearLayoutManager(this)
 
-        fetchACartOfFrom(sharedId, jsonCurrentCart, sharedPreferences)
+        fetchACartOfFrom(sharedId, jsonCurrentCart, sharedPreferences, sharedToken)
 
         findViewById<Button>(R.id.button_checkout).setOnClickListener {
             if (jsonCurrentCart != null){
@@ -66,7 +66,8 @@ class CartActivity: AppCompatActivity() {
     private fun fetchACartOfFrom(
         userId: Int,
         jsonCurrentCart: String?,
-        sharedPreferences: SharedPreferences
+        sharedPreferences: SharedPreferences,
+        sharedToken: String?
     ) {
         quantityList = arrayListOf()
         productList = arrayListOf()
@@ -76,6 +77,7 @@ class CartActivity: AppCompatActivity() {
         val gson = GsonBuilder().create()
         val requestCarts = Request
             .Builder()
+            .addHeader("Authorization","Bearer $sharedToken")
             .url(urlFetchCarts)
             .build()
         client.newCall(requestCarts).enqueue(object : Callback {

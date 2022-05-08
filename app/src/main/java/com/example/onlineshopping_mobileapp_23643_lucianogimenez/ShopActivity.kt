@@ -35,6 +35,7 @@ class ShopActivity: AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences(MY_APP_PREFERENCES, Context.MODE_PRIVATE)!!
         val sharedId = sharedPreferences.getInt("id", -1)
+        val sharedToken = sharedPreferences.getString("Token", "No Login")
         val currentCartShared = sharedPreferences.getString(CURRENT_CART_KEY, null)
 
         if (currentCartShared != null){
@@ -44,7 +45,7 @@ class ShopActivity: AppCompatActivity() {
         categoriesRecyclerView = findViewById(R.id.recyclerView_categories)
         categoriesRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        fetchCategories(sharedId, currentCartShared, sharedPreferences)
+        fetchCategories(sharedId, currentCartShared, sharedPreferences, sharedToken)
 
         findViewById<Button>(R.id.cart_button_shop).setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
@@ -63,11 +64,16 @@ class ShopActivity: AppCompatActivity() {
     private fun fetchCategories(
         sharedId: Int,
         currentCartShared: String?,
-        sharedPreferences: SharedPreferences
+        sharedPreferences: SharedPreferences,
+        sharedToken: String?
     ) {
-        //val url = "https://fakestoreapi.com/products/categories"
-        val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample2.json"
-        val request = Request.Builder().url(url).build()
+        val url = "https://fakestoreapi.com/products/categories"
+        //val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample2.json"
+        val request = Request
+            .Builder()
+            .addHeader("Authorization","Bearer $sharedToken")
+            .url(url)
+            .build()
         val client = OkHttpClient()
         client.run {
             newCall(request).enqueue(object : Callback {
@@ -89,7 +95,7 @@ class ShopActivity: AppCompatActivity() {
                                 @RequiresApi(Build.VERSION_CODES.O)
                                 override fun onItemClick(position: Int) {
                                     //println(categoriesList[position])
-                                    fetchProducts(categoriesList[position], sharedId, currentCartShared, sharedPreferences)
+                                    fetchProducts(categoriesList[position], sharedId, currentCartShared, sharedPreferences, sharedToken)
                                 }
                             })
                         }
@@ -104,11 +110,16 @@ class ShopActivity: AppCompatActivity() {
         category: String,
         sharedId: Int,
         currentCartShared: String?,
-        sharedPreferences: SharedPreferences
+        sharedPreferences: SharedPreferences,
+        sharedToken: String?
     ){
         currentCart  = Cart(-1, sharedId, LocalDateTime.now().toString(), mutableSetOf())
         val url = "https://fakestoreapi.com/products/category/$category"
-        val request = Request.Builder().url(url).build()
+        val request = Request
+            .Builder()
+            .addHeader("Authorization","Bearer $sharedToken")
+            .url(url)
+            .build()
         val client = OkHttpClient()
         client.run{
             newCall(request).enqueue(object : Callback{

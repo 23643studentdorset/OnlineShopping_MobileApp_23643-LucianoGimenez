@@ -21,8 +21,9 @@ class ProfileActivity: AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences(MY_APP_PREFERENCES, Context.MODE_PRIVATE)!!
         val sharedId = sharedPreferences.getInt("id", -1)
+        val sharedToken = sharedPreferences.getString("Token", "No Login")
 
-        fetchUserInfo(sharedId)
+        fetchUserInfo(sharedId, sharedToken)
 
         findViewById<Button>(R.id.button_logout).setOnClickListener {
            sharedPreferences.edit().remove("id").remove("Token").remove(CURRENT_CART_KEY).apply()
@@ -49,9 +50,13 @@ class ProfileActivity: AppCompatActivity() {
         }
     }
 
-    private fun fetchUserInfo(sharedId:Int){
+    private fun fetchUserInfo(sharedId: Int, sharedToken: String?){
         val url = "https://fakestoreapi.com/users/$sharedId"
-        val request = Request.Builder().url(url).build()
+        val request = Request
+            .Builder()
+            .addHeader("Authorization","Bearer $sharedToken")
+            .url(url)
+            .build()
         val client = OkHttpClient()
         client.run {
             newCall(request).enqueue(object : Callback {
