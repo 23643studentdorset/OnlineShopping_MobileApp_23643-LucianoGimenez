@@ -132,11 +132,8 @@ class CartActivity: AppCompatActivity() {
                                         putString(CURRENT_CART_KEY, newCurrentCartJson)
                                         apply()
                                     }
-
-
                                 }
                                 //println("quantity:${quantityList[position]}")
-
                             }else{
                                 quantityList[position] += 1
                                 //println("quantity:${quantityList[position]}")

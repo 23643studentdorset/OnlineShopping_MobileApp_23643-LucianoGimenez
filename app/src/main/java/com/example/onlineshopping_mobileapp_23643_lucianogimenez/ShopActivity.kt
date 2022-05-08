@@ -135,6 +135,10 @@ class ShopActivity: AppCompatActivity() {
                                     if (currentCartShared == null) {
                                         currentCart.addProduct(productsList[position])
                                         currentCartJson = gson.toJson(currentCart)
+                                        with(sharedPreferences.edit()) {
+                                            putString(CURRENT_CART_KEY, currentCartJson)
+                                            apply()
+                                        }
                                     }else{
                                         currentCart = gson.fromJson(currentCartShared, Cart::class.java)
                                         currentCart.addProduct(productsList[position])
