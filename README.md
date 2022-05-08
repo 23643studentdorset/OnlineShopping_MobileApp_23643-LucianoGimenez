@@ -1,6 +1,6 @@
 # OnlineShopping_MobileApp_23643-LucianoGimenez
 
-This repo contains the Final proyect Mobile App of Dorset Mobile Applications 1 Course for BSc Year 2 
+This repo contains the Final project Mobile App of Dorset Mobile Applications 1 Course for BSc Year 2 
 
 ## Online Shopping App
 Make an online shopping app consuming JSON API hosted at https://fakestoreapi.com fulfilling the following requirements. 
