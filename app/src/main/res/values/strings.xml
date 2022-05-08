@@ -30,5 +30,10 @@
     <string name="rate">Rate:</string>
     <string name="increase">increase item</string>
     <string name="decrease">decrease item</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
+    <string name="copyright">&#169; 2022, Luciano Gimenez, All rights reserved</string>
+    <string name="credits">Credits:</string>
+    <string name="thispersondoesnotexist">https://thispersondoesnotexist.com/</string>
+    <string name="fakestoreapi">https://fakestoreapi.com/</string>
+    <string name = "stackoverflow">https://stackoverflow.com/questions/72105615/error-java-net-sockettimeoutexception-timeout-in-kotlin</string>
 </resources>

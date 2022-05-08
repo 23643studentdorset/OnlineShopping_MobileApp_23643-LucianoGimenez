@@ -29,6 +29,10 @@ class ProfileActivity: AppCompatActivity() {
             val intentLogIn = Intent(this, MainActivity::class.java)
             startActivity(intentLogIn)
         }
+        findViewById<Button>(R.id.button_about_this_app).setOnClickListener {
+            val intentLogIn = Intent(this, AboutActivity::class.java)
+            startActivity(intentLogIn)
+        }
 
 
         findViewById<Button>(R.id.shop_button_profile).setOnClickListener {
