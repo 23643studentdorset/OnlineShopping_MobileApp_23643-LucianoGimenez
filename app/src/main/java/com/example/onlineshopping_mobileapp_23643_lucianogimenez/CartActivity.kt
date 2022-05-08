@@ -40,7 +40,7 @@ class CartActivity: AppCompatActivity() {
         recyclerViewCart = findViewById(R.id.recyclerView_cart)
         recyclerViewCart.layoutManager = LinearLayoutManager(this)
 
-        fetchACartOfFrom(sharedId, jsonCurrentCart)
+        fetchACartOfFrom(sharedId, jsonCurrentCart, sharedPreferences)
 
         findViewById<Button>(R.id.button_checkout).setOnClickListener {
             if (jsonCurrentCart != null){
@@ -63,9 +63,14 @@ class CartActivity: AppCompatActivity() {
         }
     }
 
-    private fun fetchACartOfFrom(userId: Int, jsonCurrentCart : String? ) {
+    private fun fetchACartOfFrom(
+        userId: Int,
+        jsonCurrentCart: String?,
+        sharedPreferences: SharedPreferences
+    ) {
         quantityList = arrayListOf()
         productList = arrayListOf()
+        var currentCart = Cart(1,1,"", mutableSetOf())
         val urlFetchCarts = "https://fakestoreapi.com/carts/user/$userId"
         val client = OkHttpClient()
         val gson = GsonBuilder().create()
@@ -85,7 +90,7 @@ class CartActivity: AppCompatActivity() {
                 var urlFetchProductInfo: String
                 //println(jsonCurrentCart)
                 if (jsonCurrentCart != null){
-                    val currentCart = gson.fromJson(jsonCurrentCart, Cart::class.java)
+                    currentCart = gson.fromJson(jsonCurrentCart, Cart::class.java)
                     for (item in currentCart.products) {
                         quantityList.add(item.quantity)
                         urlFetchProductInfo = "https://fakestoreapi.com/products/${item.productId}"
@@ -114,13 +119,27 @@ class CartActivity: AppCompatActivity() {
                     adapter.setOnItemClickListener(object : AdapterProductsCart.OnItemClickListener{
 
                         override fun onItemClick(position: Int, operation: Int ) {
-                            println("position:$position operation:$operation")
+                            //println("position:$position operation:$operation")
                             if (operation == 1){
                                 quantityList[position] -= 1
-                                println("quantity:${quantityList[position]}")
+                                if (quantityList[position] == 0){
+                                    quantityList.remove(position)
+                                    productList.removeAt(position)
+                                    adapter.notifyItemRemoved(position)
+                                    currentCart.products.remove(currentCart.products.elementAt(position))
+                                    val newCurrentCartJson = gson.toJson(currentCart)
+                                    with(sharedPreferences.edit()) {
+                                        putString(CURRENT_CART_KEY, newCurrentCartJson)
+                                        apply()
+                                    }
+
+
+                                }
+                                //println("quantity:${quantityList[position]}")
+
                             }else{
                                 quantityList[position] += 1
-                                println("quantity:${quantityList[position]}")
+                                //println("quantity:${quantityList[position]}")
                             }
                             adapter.notifyItemChanged(position)
                         }
@@ -128,7 +147,7 @@ class CartActivity: AppCompatActivity() {
                     })
 
                     findViewById<TextView>(R.id.loading).visibility = View.GONE
-                    recyclerViewCart.visibility = View.VISIBLE}, 10000)
+                    recyclerViewCart.visibility = View.VISIBLE}, 2000)
             }
         })
     }
@@ -153,9 +172,9 @@ class CartActivity: AppCompatActivity() {
                     sharedPreferences.edit().remove(CURRENT_CART_KEY).apply()
                     runOnUiThread{
                         Toast.makeText(this@CartActivity,"Order Sent", Toast.LENGTH_LONG).show()
-                        recyclerViewCart.visibility = View.GONE
                         quantityList.clear()
                         productList.clear()
+                        recyclerViewCart.adapter?.notifyDataSetChanged()
                     }
 
 

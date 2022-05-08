@@ -2,6 +2,7 @@ package com.example.onlineshopping_mobileapp_23643_lucianogimenez
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -43,35 +44,27 @@ class ShopActivity: AppCompatActivity() {
         categoriesRecyclerView = findViewById(R.id.recyclerView_categories)
         categoriesRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        fetchCategories(sharedId, currentCartShared)
+        fetchCategories(sharedId, currentCartShared, sharedPreferences)
 
         findViewById<Button>(R.id.cart_button_shop).setOnClickListener {
-            with(sharedPreferences.edit()) {
-                putString(CURRENT_CART_KEY, currentCartJson)
-                apply()
-            }
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
         findViewById<Button>(R.id.orders_button_shop).setOnClickListener {
-            with(sharedPreferences.edit()) {
-                putString(CURRENT_CART_KEY, currentCartJson)
-                apply()
-            }
             val intent = Intent(this, OrdersActivity::class.java)
             startActivity(intent)
         }
         findViewById<Button>(R.id.profile_button_shop).setOnClickListener {
-            with(sharedPreferences.edit()) {
-                putString(CURRENT_CART_KEY, currentCartJson)
-                apply()
-            }
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
 
     }
-    private fun fetchCategories(sharedId : Int, currentCartShared : String?) {
+    private fun fetchCategories(
+        sharedId: Int,
+        currentCartShared: String?,
+        sharedPreferences: SharedPreferences
+    ) {
         //val url = "https://fakestoreapi.com/products/categories"
         val url = "https://raw.githubusercontent.com/23643studentdorset/TuesdayLesson2/master/sample2.json"
         val request = Request.Builder().url(url).build()
@@ -96,7 +89,7 @@ class ShopActivity: AppCompatActivity() {
                                 @RequiresApi(Build.VERSION_CODES.O)
                                 override fun onItemClick(position: Int) {
                                     //println(categoriesList[position])
-                                    fetchProducts(categoriesList[position], sharedId, currentCartShared)
+                                    fetchProducts(categoriesList[position], sharedId, currentCartShared, sharedPreferences)
                                 }
                             })
                         }
@@ -107,7 +100,12 @@ class ShopActivity: AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun fetchProducts (category: String, sharedId : Int, currentCartShared: String?){
+    private fun fetchProducts (
+        category: String,
+        sharedId: Int,
+        currentCartShared: String?,
+        sharedPreferences: SharedPreferences
+    ){
         currentCart  = Cart(-1, sharedId, LocalDateTime.now().toString(), mutableSetOf())
         val url = "https://fakestoreapi.com/products/category/$category"
         val request = Request.Builder().url(url).build()
@@ -142,6 +140,10 @@ class ShopActivity: AppCompatActivity() {
                                         currentCart.addProduct(productsList[position])
                                         println("here")
                                         currentCartJson = gson.toJson(currentCart)
+                                        with(sharedPreferences.edit()) {
+                                            putString(CURRENT_CART_KEY, currentCartJson)
+                                            apply()
+                                        }
 
                                     }
                                 }
